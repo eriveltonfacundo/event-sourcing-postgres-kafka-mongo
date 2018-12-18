@@ -13,9 +13,9 @@ If you think something is really necessary but you don’t have enough time to i
 ## Tasks
 
 Your task is to develop one (or more, feel free) RESTful service(s) to:
-* Create a **Provider**
-* Update a **Provider** information
-* Retrieve a **Provider** by parameters
+* Create a **Store**
+* Update a **Store** information
+* Retrieve a **Store** by parameters
 * Create an **Order** with items
 * Create a **Payment** for an **Order**
 * Retrieve an **Order** by parameters
@@ -25,7 +25,7 @@ Fork this repository and submit your code with partial commits.
 
 ## Business Rules
 
-* A **Provider** is composed by name and address
+* A **Store** is composed by name and address
 * An **Order** is composed by address, confirmation date and status
 * An **Order Item** is composed by description, unit price and quantity.
 * A **Payment** is composed by status, credit card number and payment date
