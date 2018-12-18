@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/shelsonjava/invillia.svg?branch=master)](https://travis-ci.org/shelsonjava/invillia)
 
-![Invillia Logo](assets/logo-invillia.svg)
+![Invillia Logo](https://invillia.com/public/assets/img/logo-invillia.svg)
 [Invillia](https://https://www.invillia.com/) - A transformação começa aqui.
 
 The ACME company is migrating their monolithic system to a microservice architecture and you’re responsible to build their MVP (minimum viable product)  .
