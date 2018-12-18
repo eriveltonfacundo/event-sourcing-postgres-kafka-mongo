@@ -41,8 +41,8 @@ scalability.
 ## Nice to have features (describe or implement):
 * Asynchronous processing
 * Database
-* Docker - https://www.docker.com/
-* AWS propose - https://github.com/localstack/localstack
+* Docker
+* AWS
 * Security
-* Swagger - https://swagger.io/
+* Swagger
 * Clean Code
