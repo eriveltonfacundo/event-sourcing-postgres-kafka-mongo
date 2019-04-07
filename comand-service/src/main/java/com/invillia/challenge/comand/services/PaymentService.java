@@ -19,7 +19,7 @@ public class PaymentService {
         kafkaComponent.sendPayment(entity);
     }
 
-//    @Cacheable(value = "payment-sigle", key = "#id")
+    @Cacheable(value = "payment-sigle", key = "#id")
     public Payment findById(Long id) {
         return paymentRepository.findById(id).orElse(null);
     }

@@ -50,7 +50,19 @@ public class OrderController {
     }
 
     @PostMapping("/{id}/refund")
-    public ResponseEntity<?> payment(@PathVariable("id") Long id) {
+    public ResponseEntity<?> refund(@PathVariable("id") Long id) {
+        Order order = orderService.checkPossibleRefund(id);
+        if (order == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        order.setStatus(OrderStatus.REFUNDED);
+        orderService.save(order);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/refund/{itemId}")
+    public ResponseEntity<?> refundItem(@PathVariable("id") Long id, @PathVariable("itemId") Long itemId) {
         Order order = orderService.checkPossibleRefund(id);
         if (order == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

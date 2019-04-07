@@ -6,6 +6,7 @@ import com.invillia.challenge.comand.produces.KafkaComponent;
 import com.invillia.challenge.comand.repositories.OrderRepository;
 import com.invillia.challenge.comand.repositories.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +25,7 @@ public class OrderService {
         kafkaComponent.sendOrder(order);
     }
 
-//    @Cacheable(value = "order-sigle", key = "#id")
+    @Cacheable(value = "order-sigle", key = "#id")
     public Order findById(Long id) {
         return orderRepository.findById(id).orElse(null);
     }

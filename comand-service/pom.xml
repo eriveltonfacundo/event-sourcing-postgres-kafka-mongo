@@ -11,7 +11,7 @@
 	<groupId>com.invillia.challenge</groupId>
 	<artifactId>comand-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>comand</name>
+	<name>comand-service</name>
 	<description>comand-service</description>
 
 	<properties>
