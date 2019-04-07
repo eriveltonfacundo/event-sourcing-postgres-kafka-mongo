@@ -1,12 +1,32 @@
 version: '2'
-
 services:
-
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - consumer-producer
+  postgres:
+     image: postgres:9.6
+     ports:
+       - "5432:5432"
+     environment:
+       - POSTGRES_USER=postgres
+       - POSTGRES_PASSWORD=123
+     networks:
+       - consumer-producer
+  redis:
+     image: "redis:alpine"
+     ports:
+       - "6379:6379"
+     networks:
+       - consumer-producer
   zookeeper:
     image: wurstmeister/zookeeper:3.4.6
     expose:
     - "2181"
-
+    networks:
+      - consumer-producer
   kafka:
     image: wurstmeister/kafka:2.11-2.0.0
     depends_on:
@@ -17,3 +37,8 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    networks:
+      - consumer-producer
+networks:
+  consumer-producer:
+    driver: bridge
