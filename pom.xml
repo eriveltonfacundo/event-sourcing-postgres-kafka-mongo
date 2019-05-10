@@ -3,8 +3,8 @@
 
         <modelVersion>4.0.0</modelVersion>
 
-        <groupId>com.invillia.challenge</groupId>
-        <artifactId>backend-challenge</artifactId>
+        <groupId>com.example.eventsourcing</groupId>
+        <artifactId>event-sourcing</artifactId>
         <version>1.0</version>
         <packaging>pom</packaging>
 
