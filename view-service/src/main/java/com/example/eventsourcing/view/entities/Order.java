@@ -6,10 +6,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by eriveltonfacundo on 05/04/2019.
- */
-
 @Document
 @Getter @Setter
 @EqualsAndHashCode(of = "id")

@@ -2,7 +2,6 @@ package com.example.eventsourcing.view.configs;
 
 import com.example.eventsourcing.view.services.ViewService;
 import graphql.GraphQL;
-import graphql.schema.GraphQLSchema;
 import io.leangen.graphql.GraphQLSchemaGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,9 +15,8 @@ public class GraphQLConfig {
 
     @Bean
     GraphQL graphQL() {
-        GraphQLSchema schema = new GraphQLSchemaGenerator()
+        return GraphQL.newGraphQL(new GraphQLSchemaGenerator()
                 .withOperationsFromSingleton(viewService)
-                .generate();
-        return GraphQL.newGraphQL(schema).build();
+                .generate()).build();
     }
 }

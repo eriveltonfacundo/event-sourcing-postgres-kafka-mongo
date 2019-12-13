@@ -1,30 +1,24 @@
 package com.example.eventsourcing.view.utils;
 
 import org.springframework.data.domain.Sort;
-import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.stream;
 import static org.springframework.data.domain.Sort.*;
-
-/**
- * Created by eriveltonfacundo on 06/04/2019.
- */
+import static org.springframework.util.StringUtils.isEmpty;
 
 public class SortUtil {
 
     public static Sort toSort(String sort) {
-        if (StringUtils.isEmpty(sort))
+        if (isEmpty(sort))
             return unsorted();
-        List<Order> orders = Arrays.stream(sort.split(",")).map(s -> {
+        return by(stream(sort.split(",")).map(s -> {
             s = s.trim();
             if (s.startsWith("-"))
                 return Order.desc(s.substring(1, s.length()));
             else
                 return Order.asc(s);
-        }).collect(Collectors.toList());
-        return by(orders);
+        }).collect(Collectors.toList()));
     }
 }

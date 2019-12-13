@@ -15,9 +15,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * Created by eriveltonfacundo on 05/04/2019.
- */
+import static com.example.eventsourcing.comand.enums.PaymentStatus.*;
+import static java.time.LocalDateTime.*;
 
 @Getter @Setter @Entity @Table(name = "payments")
 @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(of = "id")
@@ -49,9 +48,10 @@ public class Payment implements Serializable {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    @PrePersist
     public void prePersist() {
-        this.setId(null);
-        this.setPaymentDate(LocalDateTime.now());
-        this.setStatus(PaymentStatus.CONFIRMED);
+        id = null;
+        paymentDate = now();
+        status = CONFIRMED;
     }
 }

@@ -9,10 +9,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * Created by eriveltonfacundo on 05/04/2019.
- */
-
 @Document
 @Getter @Setter
 @EqualsAndHashCode(of = "id")

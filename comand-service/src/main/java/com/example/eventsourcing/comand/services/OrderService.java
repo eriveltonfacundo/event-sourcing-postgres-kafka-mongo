@@ -32,6 +32,10 @@ public class OrderService {
 
     @Transactional
     public void payment(Order order, Payment payment) {
+        payment.setOrder(order);
+        order.setPayment(payment);
+        order.pay();
+
         paymentRepository.save(payment);
         kafkaComponent.sendPayment(payment);
         orderRepository.save(order);

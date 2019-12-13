@@ -7,20 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class StoreService {
+
     @Autowired
     private KafkaComponent kafkaComponent;
     @Autowired
     private StoreRepository storeRepository;
 
-    public void save(Store entity) {
-        storeRepository.save(entity);
+    public Store save(Store entity) {
         kafkaComponent.sendStore(entity);
+        return storeRepository.save(entity);
     }
 
     @Cacheable(value = "store-sigle", key = "#id")
-    public Store findById(Long id) {
-        return storeRepository.findById(id).orElse(null);
+    public Optional<Store> findById(Long id) {
+        return storeRepository.findById(id);
     }
 }

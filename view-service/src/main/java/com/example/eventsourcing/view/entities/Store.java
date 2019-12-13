@@ -1,14 +1,12 @@
 package com.example.eventsourcing.view.entities;
 
 
-import io.leangen.graphql.annotations.types.GraphQLType;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 
 @Document
-@GraphQLType
 @Getter @Setter
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor @AllArgsConstructor

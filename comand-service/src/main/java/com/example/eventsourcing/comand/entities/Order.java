@@ -13,21 +13,28 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-/**
- * Created by eriveltonfacundo on 05/04/2019.
- */
+import static com.example.eventsourcing.comand.enums.OrderStatus.CONFIRMED;
+import static com.example.eventsourcing.comand.enums.OrderStatus.PENDING;
+import static java.time.LocalDateTime.now;
 
-@Getter @Setter @Entity @Table(name = "orders")
-@NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(of = "id")
+@Getter
+@Setter
+@Entity
+@Table(name = "orders")
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Order implements Serializable {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank @Size(min = 1, max = 100)
+    @NotBlank
+    @Size(min = 1, max = 100)
     @Column(name = "address", nullable = false, unique = true, length = 100)
     private String address;
 
@@ -50,21 +57,19 @@ public class Order implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "order")
     private List<OrderItem> items;
 
+    @PrePersist
     public void prePersist() {
-        this.setId(null);
-        this.setStatus(OrderStatus.PENDING);
-        ArrayList<OrderItem> items = new ArrayList<>(this.getItems());
-        this.getItems().clear();
-        for (OrderItem item : items) {
+        id = null;
+        status = PENDING;
+        items = items.stream().peek(item -> {
             item.setId(null);
             item.setOrder(this);
-            item.setStatus(OrderStatus.CONFIRMED);
-            this.getItems().add(item);
-        }
+            item.setStatus(CONFIRMED);
+        }).collect(Collectors.toList());
     }
 
     public void pay() {
-        this.setConfirmationDate(LocalDateTime.now());
-        this.setStatus(OrderStatus.CONFIRMED);
+        confirmationDate = now();
+        status = CONFIRMED;
     }
 }

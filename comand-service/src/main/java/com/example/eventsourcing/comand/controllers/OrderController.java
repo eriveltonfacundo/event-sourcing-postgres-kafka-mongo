@@ -2,7 +2,6 @@ package com.example.eventsourcing.comand.controllers;
 
 import com.example.eventsourcing.comand.entities.Order;
 import com.example.eventsourcing.comand.entities.Payment;
-import com.example.eventsourcing.comand.enums.OrderStatus;
 import com.example.eventsourcing.comand.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+
+import static com.example.eventsourcing.comand.enums.OrderStatus.REFUNDED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
 @RequestMapping("/v1/orders")
@@ -26,7 +29,6 @@ public class OrderController {
         if (order != null)
             return new ResponseEntity<>(HttpStatus.CONFLICT);
 
-        model.prePersist();
         orderService.save(model);
 
         HttpHeaders headers = new HttpHeaders();
@@ -38,38 +40,23 @@ public class OrderController {
     public ResponseEntity<?> payment(@PathVariable("id") Long id, @RequestBody @Valid Payment payment) {
         Order order = orderService.checkPendingPayment(id);
         if (order == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(NOT_FOUND);
 
-        payment.prePersist();
-        payment.setOrder(order);
-        order.setPayment(payment);
-        order.pay();
         orderService.payment(order, payment);
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(NO_CONTENT);
     }
 
     @PostMapping("/{id}/refund")
     public ResponseEntity<?> refund(@PathVariable("id") Long id) {
         Order order = orderService.checkPossibleRefund(id);
         if (order == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(NOT_FOUND);
 
-        order.setStatus(OrderStatus.REFUNDED);
+        order.setStatus(REFUNDED);
         orderService.save(order);
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(NO_CONTENT);
     }
 
-    @PostMapping("/{id}/refund/{itemId}")
-    public ResponseEntity<?> refundItem(@PathVariable("id") Long id, @PathVariable("itemId") Long itemId) {
-        Order order = orderService.checkPossibleRefund(id);
-        if (order == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        order.setStatus(OrderStatus.REFUNDED);
-        orderService.save(order);
-
-        return ResponseEntity.ok().build();
-    }
 }
